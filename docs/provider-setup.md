@@ -1,7 +1,9 @@
 # Provider access and remaining implementation
 
-Groq is the implemented cloud adapter. Bedrock and Ollama are explicit skeletons:
-selecting either reports that it is unavailable and makes no model request.
+Groq is the rehearsed cloud adapter and remains the default. Ollama is an optional
+implemented local adapter with mocked integration tests; live model behavior has
+not been verified on this Mac. Bedrock is an explicit skeleton: selecting it
+reports that it is unavailable and makes no model request.
 All keys stay in your local ignored `.env` file. Do not put keys in a task,
 terminal screenshot, Git commit, or chat message.
 
@@ -95,16 +97,40 @@ explicitly approves the selected model's usage costs.
 
 Do not count the Bedrock skeleton as a working provider in the presentation.
 
-## Ollama: future local adapter
+## Ollama: optional local adapter
 
-The skeleton reads `OLLAMA_HOST` (default `http://localhost:11434`) and
-`OLLAMA_MODEL`, but performs no connectivity check, model download, or inference.
-Person 4 can later install Ollama, select a model that fits the machine and
-supports tools, and implement `/api/chat` streaming and continuation behind the
-same provider interface. Ollama's tool-call argument representation differs
-from Groq's JSON string representation; the adapter must translate it.
-[Ollama chat API](https://docs.ollama.com/api/chat),
+This adapter incorporates the `/api/chat` request flow from Smruthi Sundar's (Person 4)
+`part4/providers/ollama.py` on `feature/part4-external-mcp-providers` (commit
+`02a544b`). It uses the existing HTTPX dependency for asynchronous requests,
+streams content, validates complete tool calls, and translates call IDs and
+tool-result messages behind the existing provider interface. The agent, tool
+dispatcher, MCP configuration, check-in fixture, and default Groq commands are
+unchanged. [Ollama chat API](https://docs.ollama.com/api/chat),
 [tool-calling examples](https://docs.ollama.com/capabilities/tool-calling)
 
-Do not count this skeleton as tested Ollama support. The final assignment still
-needs an actual local model and evaluation.
+To use it, separately install and start Ollama and install a tool-capable model
+that fits the available hardware. Edric never installs, downloads, or switches
+models automatically. Set `OLLAMA_HOST` (default `http://localhost:11434`) and
+`OLLAMA_MODEL` locally; a blank model setting uses Person 4's
+`qwen2.5-coder:7b` default. An explicit `--model` overrides that setting.
+
+With the server and chosen model ready:
+
+```console
+edric run "Read client.py and explain its behavior" --workspace .edric/checkin-workspace --provider ollama --model <installed-model> --server filesystem --mode confirm
+```
+
+Replace `<installed-model>` with the exact installed model name. Add `--no-stream`
+for a single response. Standard commands, including `edric demo agent`, accept the
+same provider/model options. Selecting Ollama requires no Groq key. If the local
+server or model is unavailable, the task reports an error; it does not fall back
+to cloud inference. The original direct `edric demo checkin` uses no LLM provider.
+
+Mocked HTTP tests verify the full agent/tool/result continuation, streaming,
+malformed and incomplete calls, server errors, and cancellation. They do not
+establish model quality or performance. Ollama is not installed on this Mac yet;
+keep Groq for today's rehearsed presentation until a real local tool cycle passes.
+The final assignment still needs actual local-model verification and evaluation.
+
+The original commits and integration decisions are recorded in
+[Part 4 integration and authorship](part4-integration.md).

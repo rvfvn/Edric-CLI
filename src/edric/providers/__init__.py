@@ -16,11 +16,9 @@ def create_provider(name: str = "groq", model: str | None = None, stream: bool =
             "AWS usage costs require approval before invocation. No AWS request was made."
         )
     if normalized == "ollama":
-        raise ProviderUnavailableError(
-            "Ollama is scaffolded but not implemented. See docs/provider-setup.md. "
-            "No local model was downloaded or contacted."
-        )
-    raise ProviderUnavailableError("Unknown provider. Choose groq; bedrock and ollama are future adapters.")
+        from .ollama_provider import OllamaProvider
+        return OllamaProvider(model=model, stream=stream)
+    raise ProviderUnavailableError("Unknown provider. Choose groq or ollama; bedrock is a future adapter.")
 
 
 __all__ = ["GroqProvider", "ProviderError", "ProviderUnavailableError", "create_provider"]

@@ -2,8 +2,9 @@
 
 The original October 1 component diagram remains in README and planning Git
 history. This version instantiates Python 3.12, Rich, the official MCP SDK 1.30,
-the official filesystem server, Context7, and Groq. Bedrock/Ollama remain skeletons;
-custom RAG has not been implemented. The direct demo and autonomous agent share
+the official filesystem server, Context7, and Groq. Ollama is an optional adapter
+verified with mocked HTTP responses; Bedrock remains a skeleton. Custom RAG has
+not been implemented. The direct demo and autonomous agent share
 the MCP registry. The direct demo is a predetermined sequence, not model autonomy.
 
 ```mermaid
@@ -14,7 +15,7 @@ flowchart TB
     A <--> P[Provider interface]
     P <--> G[Groq adapter]
     P -. future .-> AWS[Bedrock skeleton]
-    P -. future .-> O[Ollama skeleton]
+    P <--> O[Optional Ollama adapter: live rehearsal pending]
     A <--> D[Dispatcher: schemas and policy]
     D <--> CMD[Command runner: timeout and output]
     D <--> M[MCP client: discovery and routing]
@@ -151,4 +152,4 @@ sequenceDiagram
   failed servers and ensuring context managers close in the correct task.
 - The direct demo provides independent MCP integration evidence while provider
   credentials or model behavior are being validated.
-- RAG, Ollama, evaluation, and submission artifacts remain final-project work.
+- RAG, live Ollama verification, evaluation, and submission artifacts remain final-project work.
