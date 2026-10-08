@@ -1,6 +1,6 @@
 # Part 4 integration and authorship
 
-Smruthi Sundar authored the initial Ollama and Groq provider implementations on
+[Smruthi Sundar (ssunda24-droid)](https://github.com/ssunda24-droid) authored the initial Ollama and Groq provider implementations on
 `feature/part4-external-mcp-providers`. This integration preserves her original
 commits and adapts the Ollama request flow to the existing Edric application.
 The integration targets `oct8th-demo`; the original teammate branch is unchanged.
@@ -14,8 +14,9 @@ The integration targets `oct8th-demo`; the original teammate branch is unchanged
 | [`02a544b`](https://github.com/rvfvn/Edric-CLI/commit/02a544b86b44cfa0d38cacbbeaee9aae7b6a3f6f) | Smruthi Sundar | Remove Python cache files |
 
 Her original author metadata and commit hashes remain unchanged. GitHub currently
-does not associate these commits with a user profile. Name credit and Git history
-are preserved; linking a GitHub profile is a separate attribution step.
+does not associate these commits with a user profile. This document and the PR
+explicitly link her GitHub profile while preserving the original Git history;
+the original author metadata is not rewritten.
 
 ## Integration decisions
 
