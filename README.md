@@ -1,5 +1,103 @@
 # CLI Coding Assistant
 
+## October 8, 2026 — Edric check-in implementation
+
+**Current status:** The official filesystem MCP server and external Context7 MCP
+server have been invoked successfully in one repeatable terminal demonstration.
+The model/tool loop and Groq adapter completed a live autonomous task with both
+servers and four passing behavior tests. AWS Bedrock and Ollama are explicit skeletons. Custom
+advanced RAG and the final evaluation/report/video remain outstanding.
+
+The October 1 plan below is retained as the original design baseline. Its dated
+status and tentative choices describe that earlier submission.
+
+### Setup
+
+Prerequisites: Python 3.12 and Node.js 18 or newer. From the repository root:
+
+```console
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+npm ci
+edric doctor --offline
+```
+
+On this Mac the environment and dependencies are already installed. Start with:
+
+```console
+source .venv/bin/activate
+edric tools
+edric demo checkin --reset
+python -m unittest discover -s .edric/checkin-workspace -p test_client.py -v
+```
+
+The demo makes predetermined calls to actual MCP servers: filesystem listing and
+reading, live HTTPX documentation retrieval, a documentation write, a code edit,
+and exact readback. Its four offline behavior tests run in the separate command
+above. It uses no model API. Context7 worked without a key during the October 8
+rehearsal; an account key may be needed for access or higher limits later.
+
+### Autonomous assistant
+
+Create a Groq key on its Free Plan and enter it through hidden local input:
+
+```console
+edric setup --groq-only
+edric demo agent --reset --mode confirm
+```
+
+The assistant discovers MCP tools, passes selected schemas to Groq, displays each
+requested action, executes permitted calls, returns observations to the model,
+and repeats until a final response or limit. Confirmation mode asks before file
+changes and commands; auto mode executes enabled tools without those prompts.
+The demo resets only marked generated files and rejects arbitrary nonempty folders.
+
+General usage:
+
+```console
+edric chat --workspace /absolute/path/to/project --mode confirm
+edric run "Inspect the code and explain the failing test" --workspace /absolute/path/to/project
+edric run "Fix the empty-input bug and run the tests" --workspace /absolute/path/to/project --mode auto
+```
+
+Each task starts a fresh conversation. Tool execution is sequential and bounded.
+A final model answer is not independent proof of task success; inspect actual
+tool results and test output. There is no automatic paid-provider fallback. Keys
+stay in ignored local `.env`; never commit them. Workspace selection controls
+filesystem-server access and command cwd; commands are not sandboxed.
+
+### Configuration and verification
+
+Defaults connect the local pinned filesystem server and remote Context7. To
+customize, copy `mcp_servers.example.json` to ignored `mcp_servers.json`. Available
+placeholders are `${PROJECT_ROOT}`, `${WORKSPACE}`, `${PYTHON}`, and environment
+variables. Headers with missing credential values are omitted. The example also
+contains a disabled Fetch fallback; enable it explicitly if Context7 is unavailable.
+Use `--server filesystem` to connect only the filesystem server.
+
+```console
+python -m pytest -q
+edric doctor
+edric tools --verbose
+```
+
+Verified on October 8: **61 application tests passed**, both MCP servers performed
+real calls, exact edited-file readback passed, and **4 generated example behavior
+tests passed**. Separately, Groq's `openai/gpt-oss-120b` completed the autonomous
+demo in **8 model turns and 7 tool calls**, retrieving documentation, editing the
+code, and executing the four passing tests. Free Plan rate-limit waits can make
+the autonomous demo take several minutes; the direct MCP demo avoids model limits.
+
+- [Check-in commands and presentation guide](docs/checkin.md)
+- [Provider keys and future AWS setup](docs/provider-setup.md)
+- [Current architecture and workflows](docs/architecture.md)
+- [Team ownership and handoff](docs/team-handoff.md)
+- [Shared implementation contracts](docs/implementation-contracts.md)
+- [Verified rehearsal record](docs/verification.md)
+
+---
+
 ## October 1, 2026 — Initial planning submission
 
 **Status:** Planning; implementation has not begun. The assistant name and several technical selections remain open.

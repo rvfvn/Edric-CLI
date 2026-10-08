@@ -1,0 +1,10 @@
+{
+  "name": "edric-mcp-servers",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pinned official filesystem MCP server for Edric",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@modelcontextprotocol/server-filesystem": "2026.8.31"
+  }
+}

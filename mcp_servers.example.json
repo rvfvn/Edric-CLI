@@ -1,0 +1,30 @@
+{
+  "servers": [
+    {
+      "name": "filesystem",
+      "transport": "stdio",
+      "command": "${PROJECT_ROOT}/node_modules/.bin/mcp-server-filesystem",
+      "args": ["${WORKSPACE}"],
+      "required": true,
+      "enabled": true
+    },
+    {
+      "name": "context7",
+      "transport": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${CONTEXT7_API_KEY}"
+      },
+      "required": false,
+      "enabled": true
+    },
+    {
+      "name": "fetch",
+      "transport": "stdio",
+      "command": "${PYTHON}",
+      "args": ["-m", "mcp_server_fetch"],
+      "required": false,
+      "enabled": false
+    }
+  ]
+}
