@@ -5,7 +5,9 @@
 **Current status:** The official filesystem MCP server and external Context7 MCP
 server have been invoked successfully in one repeatable terminal demonstration.
 The model/tool loop and Groq adapter completed a live autonomous task with both
-servers and four passing behavior tests. AWS Bedrock and Ollama are explicit skeletons. Custom
+servers and four passing behavior tests. Ollama is an optional implemented adapter,
+verified with mocked HTTP responses but awaiting a live local-model rehearsal. AWS
+Bedrock remains an explicit skeleton. Custom
 advanced RAG and the final evaluation/report/video remain outstanding.
 
 The October 1 plan below is retained as the original design baseline. Its dated
@@ -66,6 +68,11 @@ A final model answer is not independent proof of task success; inspect actual
 tool results and test output. There is no automatic paid-provider fallback. Keys
 stay in ignored local `.env`; never commit them. Workspace selection controls
 filesystem-server access and command cwd; commands are not sandboxed.
+
+The same agent and MCP tools can optionally use Ollama with `--provider ollama
+--model <installed-model>`. This requires a running Ollama server and an installed
+tool-capable model; Edric does not install or download one. Groq remains the default
+for the rehearsed demo. See [local provider setup](docs/provider-setup.md#ollama-optional-local-adapter).
 
 ### Configuration and verification
 

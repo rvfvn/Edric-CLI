@@ -197,7 +197,7 @@ def test_missing_key_gives_setup_instruction(monkeypatch):
         create_provider("groq")
 
 
-@pytest.mark.parametrize("name", ["bedrock", "aws", "ollama"])
+@pytest.mark.parametrize("name", ["bedrock", "aws"])
 def test_skeleton_selection_is_explicitly_unavailable(name):
     with pytest.raises(ProviderUnavailableError, match="not implemented"):
         create_provider(name)

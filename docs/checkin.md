@@ -10,7 +10,7 @@ grade or imply that all final-project requirements are complete.
 
 Follow the repository setup instructions, activate the Python 3.12 environment,
 and use the repository root as your terminal working directory. Account setup
-is in `docs/provider-setup.md`. Groq is required for the autonomous assistant,
+is in `docs/provider-setup.md`. Groq is the default for the rehearsed autonomous assistant,
 but the predetermined MCP demonstration uses no model API.
 
 ```console
@@ -103,8 +103,9 @@ Person 1 owns the CLI, agent loop, tool dispatch, command runner, confirmation a
 auto modes, and integration. Person 2 owns MCP connection robustness and the
 filesystem integration. Person 3 owns the persistent custom RAG MCP server,
 corpus/indexing, and advanced RAG technique. Person 4 owns external MCP,
-cloud/local providers and evaluation. AWS Bedrock and Ollama skeletons are
-preparation; they do not count as verified working providers. The final project
+cloud/local providers and evaluation. AWS Bedrock remains a skeleton. The optional
+Ollama adapter has mocked integration tests but no live model rehearsal yet; it
+does not count as verified local inference. Groq remains today's default. The final project
 also requires evaluation, report, diagrams, and video.
 
 ## Evidence record

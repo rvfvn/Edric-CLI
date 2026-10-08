@@ -59,7 +59,18 @@ closed the task prompt and MCP connection cleanly with exit status 130.
 
 ## Unverified or unfinished
 
-- Bedrock and Ollama are skeletons, not functional providers.
+After integrating Person 4's optional Ollama request flow, the application suite
+passed **85 tests**, including mocked Ollama agent/tool/result continuation,
+streaming, incomplete and invalid responses, failures, and cancellation. The
+existing `edric demo checkin --reset` passed again with 14 filesystem tools and
+2 Context7 tools, 2,193 documentation characters, and matching edited-file
+readback. The four generated fixture tests also passed again. The agent loop,
+Groq adapter/default, MCP configuration, demo fixture, and dependencies were
+unchanged. No Ollama installation, model download, AWS call, or live model
+inference was performed during this integration verification.
+
+- Bedrock remains a skeleton. Ollama's optional adapter has mocked integration
+  coverage but has not been verified against an actual local model.
 - Custom advanced RAG is not implemented.
 - LLM/RAG comparisons, final report, and video are outstanding.
 
